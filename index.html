@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <link rel="shortcut icon" href="https://ih1.redbubble.net/image.371262943.6156/poster,504x498,f8f8f8-pad,600x600,f8f8f8.u3.jpg" type="image/x-icon">
+    <title>QR Code Generator</title>
+</head>
+<style>
+ *   {
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+}
+h1{
+    position: absolute;
+    color: rgb(255, 0, 0);
+    margin: -150px 6%;
+    border-bottom: 1px solid white;
+    
+    font-family: serif;
+}
+body{
+    display: grid;
+    place-items: center;
+    min-height: 100vh;
+    min-width: 100%;
+    background-color: black;
+    background-repeat: no-repeat;
+    /* background-image: url(https://miro.medium.com/v2/resize:fit:1400/1*R63dBXbCQi5LjZhYojtDgQ.jpeg); */
+    font-family:'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+    background-size: cover;
+}
+
+main{
+    height: 450px;
+margin-top: 8%;
+    width: 35%;
+    min-width: 400px;
+    background-color: rgb(255, 255, 255);
+    border-radius: 23px;
+    /* box-shadow:  1px 1px 40px rgb(73, 66, 66) ; */
+    display: flex;
+    
+    flex-direction: column;
+    gap: 20px;
+    padding: 30px;
+    animation-name: tt;
+    animation-duration: 2s ;
+    animation-iteration-count: infinite;
+
+    overflow: hidden;
+   
+    border: 1px solid rgb(192, 33, 33);
+
+}
+@keyframes tt{
+    0%{
+        
+    border-top: 1px solid rgb(192, 33, 33);
+
+    /* box-shadow:  1px 0px 30px rgb(255, 255, 255) ; */
+    }
+    25%{
+        
+    border-right: 1px solid rgb(192, 33, 33);
+
+    }
+    75%{
+        
+    border-bottom: 1px solid rgb(192, 33, 33);
+
+    }
+    100%{
+        
+    border-left: 1px solid rgb(192, 33, 33);
+
+        
+    /* box-shadow:  1px 1px 0px rgb(187, 49, 49) ; */
+    }
+}
+
+.show{
+.show {
+    height: 920px;
+    margin-top: 18%;
+}}
+input{
+    padding: 10px;
+    font-size: 18px;
+    border: 2px solid rgb(0, 0, 0);
+    border-radius: 3px;
+
+  
+  }
+
+
+button{
+    padding: 10px;
+    font-size: 18px;
+    border: none;
+    background-color: rgb(0, 0, 0);
+    border-radius: 3px;
+    color: white;
+    font-weight: bold;
+    cursor: pointer;
+}
+.img{
+    text-align: center;
+    padding: 10px;
+    border-radius: 3px;
+    border: 2px solid black;
+}
+
+
+@media(max-width:400px){
+body{
+    min-height: 110vh;
+}
+}
+
+@media(max-width:350px){
+    body{
+        min-height: 120vh;
+    }
+    }
+
+
+@media(max-width:330px){
+    body{
+        min-height: 125vh;
+    }
+    }
+
+@media(max-width:320px){
+    body{
+        min-height: 130vh;
+    }
+    }
+
+@media(max-width:300px){
+    body{
+        min-height: 140vh;
+    }
+    }
+</style>
+<body>
+
+
+
+    <main>
+        <h1>QR  Generator</h1>
+        <h4>Give your text (or) URL to Generate a QR Code</h4>
+            <input type="text" id="text" placeholder="Enter Text or url">
+            <button id="b" onclick="GenerateQr()">Generate</button>
+
+        <div class="img">
+            <img id="im" src="img/code.png">
+        </div>
+       
+    </main>
+
+
+
+
+    <script >
+        let text=document.getElementById("text");
+let img=document.getElementById("im");
+let g=document.getElementById("b");
+let main=document.querySelector("main");
+let d=document.getElementById("down");
+
+function GenerateQr(){
+if(text.value==""){
+    text.classList.add('error'); ;
+    setTimeout(() => {
+        text.classList.remove('error'); 
+    }, 1000);
+
+}
+else if(text.value.length > 0){
+    g.textContent="Generating..."
+    img.src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data="+text.value
+
+    main.classList.add("show")
+
+    img.onload=()=>{
+        g.textContent="Generate"
+        text.value=""
+    }
+
+}
+}
+
+d.addEventListener("click",()=>{
+    fetch(img.src)
+    .then(response=>{
+        return response.blob()
+    })
+    .then(blob=>{
+        let url=URL.createObjectURL(blob)
+        let a=document.createElement("a")
+        a.href=url
+        a.download="QRcode"
+        a.click()
+    })
+})
+    </script>
+</body>
+</html>
